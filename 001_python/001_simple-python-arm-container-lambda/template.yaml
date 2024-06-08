@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  GetDeviceFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetDeviceFunction
+      Architectures:
+        - arm64
+      PackageType: Image
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./hello_world
+      DockerTag: v1

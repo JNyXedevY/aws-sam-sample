@@ -1,0 +1,26 @@
+openapi: 3.0.1
+info:
+  title: HelloWorldApi
+  version: 1.0.0
+
+paths:
+  /hello:
+    get:
+      summary: call hello lambda
+      responses:
+        200:
+          description: HTTP OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  body:
+                    type: string
+      x-amazon-apigateway-integration:
+        payloadFormatVersion: 2.0
+        type: aws_proxy
+        httpMethod: POST
+        uri: arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:HelloWorldFunction:invocations
+
+x-amazon-apigateway-importexport-version: 1.0

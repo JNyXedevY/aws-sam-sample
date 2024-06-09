@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  HelloWorldApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: dev
+      DefinitionUri: openapi.yaml
+
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Tracing: Active
+      FunctionName: HelloWorldFunction
+      Architectures:
+        - arm64
+      PackageType: Image
+      Environment:
+        Variables:
+          POWERTOOLS_SERVICE_NAME: hello_world
+      Events:
+        HelloWorldApi:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HelloWorldApi
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./hello_world
+      DockerTag: v1
